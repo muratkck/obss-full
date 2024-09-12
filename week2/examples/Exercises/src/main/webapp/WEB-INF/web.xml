@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <filter>
+        <filter-name>PrivateURLFilter</filter-name>
+        <filter-class>org.example.exercises.filterExercise.PrivateFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PrivateURLFilter</filter-name>
+        <url-pattern>/private/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>destinationServletRedirect</servlet-name>
+        <servlet-class>org.example.exercises.otherExercises.destination.DestinationServlet</servlet-class>
+        <init-param>
+            <param-name>method</param-name>
+            <param-value>redirect</param-value>
+        </init-param>
+        <init-param>
+            <param-name>destination</param-name>
+            <param-value>/otherExercises/login.jsp</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>destinationServletRedirect</servlet-name>
+        <url-pattern>/destination-redirect</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>destinationServletForward</servlet-name>
+        <servlet-class>org.example.exercises.otherExercises.destination.DestinationServlet</servlet-class>
+        <init-param>
+            <param-name>method</param-name>
+            <param-value>forward</param-value>
+        </init-param>
+        <init-param>
+            <param-name>destination</param-name>
+            <param-value>/otherExercises/destinationJSP.jsp</param-value>
+        </init-param>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>destinationServletForward</servlet-name>
+        <url-pattern>/destination-forward</url-pattern>
+    </servlet-mapping>
+
+    <!-- Security constraint for admin page -->
+    <servlet>
+        <servlet-name>adminServlet</servlet-name>
+        <servlet-class>org.example.exercises.otherExercises.securityConstraint.AdminServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>adminServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Admin Area</web-resource-name>
+            <url-pattern>/admin</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
+
+    <!-- Security constraint for user page -->
+    <servlet>
+        <servlet-name>userServlet</servlet-name>
+        <servlet-class>org.example.exercises.otherExercises.securityConstraint.UserServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>userServlet</servlet-name>
+        <url-pattern>/user</url-pattern>
+    </servlet-mapping>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>User Area</web-resource-name>
+            <url-pattern>/user</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-role>
+        <role-name>user</role-name>
+    </security-role>
+
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>Admin Realm</realm-name>
+    </login-config>
+
+</web-app>
